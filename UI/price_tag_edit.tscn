@@ -1,0 +1,94 @@
+[gd_scene load_steps=7 format=3 uid="uid://bk4c1fm5bss75"]
+
+[ext_resource type="Script" path="res://UI/price_tag_edit.gd" id="1_88ul3"]
+[ext_resource type="FontFile" uid="uid://ci1j3cg0vgsfj" path="res://fonts/BalsamiqSans-Bold.ttf" id="1_k8mis"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vfhba"]
+bg_color = Color(0.733333, 0.423529, 1, 1)
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color(0.898039, 0.803922, 0.298039, 1)
+border_blend = true
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="FontVariation" id="FontVariation_sihgy"]
+base_font = ExtResource("1_k8mis")
+
+[sub_resource type="FontVariation" id="FontVariation_6okfu"]
+base_font = ExtResource("1_k8mis")
+
+[sub_resource type="FontVariation" id="FontVariation_8ruvq"]
+base_font = ExtResource("1_k8mis")
+
+[node name="PriceTagEdit" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_88ul3")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -524.5
+offset_top = -375.0
+offset_right = 524.5
+offset_bottom = 375.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vfhba")
+
+[node name="LineEdit" type="LineEdit" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -338.5
+offset_top = -69.0
+offset_right = 391.5
+offset_bottom = 53.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("FontVariation_sihgy")
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Enter new price"
+alignment = 1
+
+[node name="Submit" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 158.5
+offset_top = 570.0
+offset_right = 505.5
+offset_bottom = 692.0
+theme_override_fonts/font = SubResource("FontVariation_6okfu")
+theme_override_font_sizes/font_size = 40
+text = "Submit"
+
+[node name="Cancel" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 598.5
+offset_top = 570.0
+offset_right = 945.5
+offset_bottom = 692.0
+theme_override_fonts/font = SubResource("FontVariation_8ruvq")
+theme_override_font_sizes/font_size = 40
+text = "Cancel"
+
+[connection signal="pressed" from="Panel/Submit" to="." method="_on_line_edit_text_submitted" binds= ["new_text"]]
+[connection signal="pressed" from="Panel/Cancel" to="." method="_on_cancel_pressed"]

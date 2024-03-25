@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://bisgte24uw4j8"]
+
+[ext_resource type="FontFile" uid="uid://ci1j3cg0vgsfj" path="res://fonts/BalsamiqSans-Bold.ttf" id="1_h6w1o"]
+[ext_resource type="Script" path="res://UI/image_button.gd" id="1_n0ycw"]
+[ext_resource type="Texture2D" uid="uid://cadc3pddsmab8" path="res://icon.svg" id="1_v8sg8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j8ele"]
+bg_color = Color(0.717647, 0.435294, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06p7l"]
+bg_color = Color(0.921569, 0.85098, 0.423529, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1jtix"]
+bg_color = Color(0.976471, 0.945098, 0.760784, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="FontVariation" id="FontVariation_wi6el"]
+base_font = ExtResource("1_h6w1o")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rhjra"]
+font = SubResource("FontVariation_wi6el")
+font_size = 70
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qwas2"]
+font = SubResource("FontVariation_wi6el")
+font_size = 70
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ImageButton" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n0ycw")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+offset_right = 298.0
+offset_bottom = 337.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_j8ele")
+theme_override_styles/hover = SubResource("StyleBoxFlat_06p7l")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1jtix")
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -137.5
+offset_top = -150.0
+offset_right = 137.5
+offset_bottom = 102.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_v8sg8")
+
+[node name="PriceTag" type="Label" parent="Button"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 4.0
+offset_right = 151.0
+offset_bottom = 88.0
+text = "###"
+label_settings = SubResource("LabelSettings_rhjra")
+
+[node name="ObjectName" type="Label" parent="Button"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.5
+offset_top = -60.0
+offset_right = 117.5
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.8, 0.8)
+text = "LMAO"
+label_settings = SubResource("LabelSettings_qwas2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
