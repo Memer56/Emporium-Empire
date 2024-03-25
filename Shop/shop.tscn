@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://xrfq0v31ul86"]
+
+[ext_resource type="PackedScene" uid="uid://jdn53lys6nux" path="res://Shop/starter_shop.tscn" id="1_6gw6n"]
+
+[node name="Shop" type="Node3D"]
+
+[node name="starter shop" parent="." instance=ExtResource("1_6gw6n")]

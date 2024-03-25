@@ -1,0 +1,127 @@
+[gd_scene load_steps=9 format=3 uid="uid://cxomj13py0cgu"]
+
+[ext_resource type="Script" path="res://Shelf/shelf.gd" id="1_gtf7v"]
+[ext_resource type="Shader" path="res://Shaders/preview.gdshader" id="2_qacnj"]
+[ext_resource type="ArrayMesh" uid="uid://bcn84ckyvelga" path="res://Shelf/shelf_mesh.tres" id="2_vw3s2"]
+[ext_resource type="PackedScene" uid="uid://cbskus0incwee" path="res://price_tag.tscn" id="4_d0ckj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_no8a1"]
+render_priority = 0
+shader = ExtResource("2_qacnj")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u3msy"]
+size = Vector3(5.11169, 4.19929, 0.128174)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t438f"]
+size = Vector3(5.16163, 0.0764071, 0.76178)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ra8kv"]
+size = Vector3(5.22339, 4.23462, 0.898942)
+
+[node name="Shelf" type="StaticBody3D" groups=["spawnable"]]
+collision_layer = 32
+collision_mask = 9
+script = ExtResource("1_gtf7v")
+
+[node name="mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-8.74228e-08, 2, -8.74228e-08, 0, -8.74228e-08, -2, -2, -8.74228e-08, 3.82137e-15, -2.53579, 0.153082, 0)
+material_override = SubResource("ShaderMaterial_no8a1")
+instance_shader_parameters/colour = Color(0.411765, 0, 0.482353, 1)
+mesh = ExtResource("2_vw3s2")
+skeleton = NodePath("")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02948, 2.1162, -0.437681)
+shape = SubResource("BoxShape3D_u3msy")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00451136, 3.51312, -0.0117334)
+shape = SubResource("BoxShape3D_t438f")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0109835, 2.67966, 0.001908)
+shape = SubResource("BoxShape3D_t438f")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00875711, 1.84321, 0.001908)
+shape = SubResource("BoxShape3D_t438f")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00111294, 1.01001, 0.001908)
+shape = SubResource("BoxShape3D_t438f")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010983, 0.163121, 0.001908)
+shape = SubResource("BoxShape3D_t438f")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 39
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00457683, 2.09338, -0.0601593)
+visible = false
+shape = SubResource("BoxShape3D_ra8kv")
+
+[node name="PriceTags" type="Node3D" parent="."]
+
+[node name="PriceTag" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.93405, 3.52575, 0.422245)
+
+[node name="PriceTag2" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.684049, 3.52575, 0.422245)
+
+[node name="PriceTag3" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.690951, 3.52575, 0.422245)
+
+[node name="PriceTag4" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94095, 3.52575, 0.422245)
+
+[node name="PriceTag5" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.93405, 2.67799, 0.422245)
+
+[node name="PriceTag6" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.684049, 2.67799, 0.422245)
+
+[node name="PriceTag7" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.690951, 2.67799, 0.422245)
+
+[node name="PriceTag8" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94095, 2.67799, 0.422245)
+
+[node name="PriceTag9" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.93405, 1.83944, 0.422245)
+
+[node name="PriceTag10" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.684049, 1.83944, 0.422245)
+
+[node name="PriceTag11" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.690951, 1.83944, 0.422245)
+
+[node name="PriceTag12" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94095, 1.83944, 0.422245)
+
+[node name="PriceTag13" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.93405, 1.00174, 0.422245)
+
+[node name="PriceTag14" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.684049, 1.00174, 0.422245)
+
+[node name="PriceTag15" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.690951, 1.00174, 0.422245)
+
+[node name="PriceTag16" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94095, 1.00174, 0.422245)
+
+[node name="PriceTag17" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.93405, 0.145328, 0.422245)
+
+[node name="PriceTag18" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.684049, 0.145328, 0.422245)
+
+[node name="PriceTag19" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.690951, 0.145328, 0.422245)
+
+[node name="PriceTag20" parent="PriceTags" instance=ExtResource("4_d0ckj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94095, 0.145328, 0.422245)
