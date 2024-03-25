@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://0flp8lqr7hp4"]
+
+[ext_resource type="Script" path="res://Objects/cardboard_box.gd" id="1_rmkw2"]
+[ext_resource type="Texture2D" uid="uid://cs5ebuehl13mn" path="res://Objects/Cardboard boxes/Cardboard_barcode.png" id="1_tbtdf"]
+[ext_resource type="ArrayMesh" uid="uid://ngywfyeab52j" path="res://MeshFiles/closed_box_mesh.tres" id="3_oqg1i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwlmv"]
+resource_name = "codeBArre"
+transparency = 4
+cull_mode = 2
+albedo_texture = ExtResource("1_tbtdf")
+roughness = 0.5
+emission_enabled = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m43mu"]
+_surfaces = [{
+"aabb": AABB(-1.11111, -0.587548, -0.499586, 2.22223, 0.000514507, 1.00001),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 0, 0, 3, 0, 2, 0),
+"name": "codeBArre",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(254, 255, 3, 251, 254, 255, 0, 0, 254, 255, 0, 0, 0, 0, 0, 0, 0, 0, 121, 0, 0, 0, 0, 0, 0, 0, 125, 251, 254, 255, 0, 0)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_l76hv"]
+resource_name = "Cardboard_011_codeBArre_001"
+_surfaces = [{
+"aabb": AABB(-1.11111, -0.587548, -0.499586, 2.22223, 0.000514507, 1.00001),
+"attribute_data": PackedByteArray(255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 0, 0, 3, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_mwlmv"),
+"name": "codeBArre",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray(254, 255, 3, 251, 254, 255, 4, 192, 254, 255, 0, 0, 0, 0, 4, 192, 0, 0, 121, 0, 0, 0, 4, 192, 0, 0, 125, 251, 254, 255, 4, 192, 254, 255, 255, 127, 254, 255, 255, 127, 254, 255, 255, 127, 254, 255, 255, 127)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_m43mu")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3wc62"]
+size = Vector3(0.0688477, 0.928955, 1)
+
+[node name="CardboardBox_1" type="RigidBody3D" groups=["box"]]
+collision_layer = 128
+collision_mask = 523
+script = ExtResource("1_rmkw2")
+
+[node name="codeBArre_001" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.011e-08, 0.100259, -7.58254e-09, 0, -1.19518e-08, -0.0848092, -0.0848092, -8.96385e-09, 0, 0.510185, -0.00914931, -0.119208)
+mesh = SubResource("ArrayMesh_l76hv")
+skeleton = NodePath("")
+
+[node name="BoxMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("3_oqg1i")
+skeleton = NodePath("")
+
+[node name="CollisionSide" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.431396, -0.0113525, 0)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="CollisionSide2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.433663, -0.0113525, 0)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="CollisionSide3" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0147357, -0.0113525, 0.433519)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="CollisionSide4" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0147357, -0.0113525, -0.436568)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="CollisionBottom" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.0147357, -0.440674, -0.0823526)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="CollisionTop" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.0147357, 0.420221, -0.0823526)
+visible = false
+shape = SubResource("BoxShape3D_3wc62")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
