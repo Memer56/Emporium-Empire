@@ -1,0 +1,153 @@
+[gd_scene load_steps=11 format=3 uid="uid://bskvqqf7w42dt"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_hp7pe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lg0vk"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yhtyo"]
+bg_color = Color(0.0196078, 0.843137, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wqiu6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_515s3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u74v0"]
+albedo_color = Color(0.85098, 0.290196, 1, 1)
+
+[sub_resource type="Animation" id="Animation_subjh"]
+resource_name = "BuildPOV"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("head:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.785398, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_i6gel"]
+resource_name = "PreventAnnoyingAnim"
+
+[sub_resource type="Animation" id="Animation_kidke"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("head:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_af02j"]
+_data = {
+"BuildPOV": SubResource("Animation_subjh"),
+"PreventAnnoyingAnim": SubResource("Animation_i6gel"),
+"RESET": SubResource("Animation_kidke")
+}
+
+[node name="Player" type="CharacterBody3D"]
+process_mode = 1
+collision_mask = 38
+floor_block_on_wall = false
+script = ExtResource("1_hp7pe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Reticle" type="Panel" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lg0vk")
+
+[node name="GreenReticle" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yhtyo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wqiu6")
+
+[node name="VisualBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.986261, 0)
+mesh = SubResource("CapsuleMesh_515s3")
+surface_material_override/0 = SubResource("StandardMaterial3D_u74v0")
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61461, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+
+[node name="Interaction" type="RayCast3D" parent="head/Camera3D" groups=["door"]]
+visible = false
+target_position = Vector3(0, 0, -5)
+collision_mask = 424
+debug_shape_custom_color = Color(0.768627, 0.113725, 0, 1)
+
+[node name="Hand" type="Marker3D" parent="head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.29745)
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="head/Camera3D"]
+node_a = NodePath("../StaticBody3D")
+linear_limit_x/enabled = false
+linear_limit_y/enabled = false
+linear_limit_z/enabled = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.08658)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+active = false
+libraries = {
+"": SubResource("AnimationLibrary_af02j")
+}
