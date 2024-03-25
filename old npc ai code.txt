@@ -1,0 +1,98 @@
+old npc ai code:
+
+extends CharacterBody3D
+
+@onready var astar = $"../Astar"
+@onready var mesh = $Knight/Rig/Skeleton3D
+@onready var ray_cast = $RayCast3D
+@onready var animation_player = $Knight/AnimationPlayer
+@onready var navigation_agent = $NavigationAgent3D
+@onready var player = $"../Player"
+
+var path := []
+var current_target := Vector3.INF
+var current_velocity := Vector3.ZERO
+var speed := 5.0
+var gravity = 200
+var state = NORMAL
+var target_node = null
+
+enum {
+	NORMAL,
+	JUMP
+}
+
+func _ready():
+	navigation_agent.velocity_computed.connect(Callable(_on_navigation_agent_3d_velocity_computed))
+
+func set_movement_target(movement_target: Vector3):
+	navigation_agent.set_target_position(movement_target)
+
+func _physics_process(delta: float) -> void:
+	match state:
+		NORMAL:
+			check_for_target_V2(delta)
+		JUMP:
+			jump()
+	
+	if ray_cast.is_colliding() and is_on_floor():
+		jump()
+	
+	move_and_slide()
+
+func jump():
+	velocity.y += 50
+
+func check_for_target_V2(delta):
+	navigation_agent.target_position = EventBus.player_pos
+	await get_tree().process_frame
+	var direction = navigation_agent.get_next_path_position() - global_position
+	direction = direction.normalized()
+	velocity = global_position.direction_to(direction) * speed
+	
+	apply_gravity(delta)
+
+func check_for_target(delta):
+	var lerp_weight = delta * 8.0
+	if current_target != Vector3.INF:
+		var dir_to_target = global_position.direction_to(current_target).normalized()
+		velocity = dir_to_target * speed
+		mesh.rotation.y = lerp_angle(mesh.rotation.y, atan2(dir_to_target.x, dir_to_target.z) - rotation.y, delta * 10)
+		ray_cast.rotation.y = mesh.rotation.y
+		animation_player.play("Walking_A")
+		if global_position.distance_to(current_target) < 0.5:
+			find_next_point_in_path()
+	else:
+		velocity = Vector3.ZERO
+		animation_player.play("Idle")
+	
+	apply_gravity(delta)
+
+func apply_gravity(delta):
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
+func find_next_point_in_path():
+	if path.size() > 0:
+		var new_target = path.pop_front()
+		new_target.y = global_position.y
+		current_target = new_target
+	else:
+		current_target = Vector3.INF
+
+
+func update_path(new_path: Array):
+	path = new_path
+	find_next_point_in_path()
+
+func _on_velocity_computed(safe_velocity : Vector3):
+	velocity = safe_velocity
+	move_and_slide()
+
+func _on_timer_timeout():
+	#update_path(astar.find_path(global_position, EventBus.player_pos))
+	set_movement_target(EventBus.player_pos)
+
+
+func _on_navigation_agent_3d_velocity_computed(safe_velocity):
+	velocity = safe_velocity
