@@ -1,0 +1,1019 @@
+[gd_scene load_steps=57 format=3 uid="uid://cl1yxfdayq4fq"]
+
+[ext_resource type="Shader" path="res://Shaders/galaxy.gdshader" id="1_iwueq"]
+[ext_resource type="Script" path="res://MainMenu/main_menu.gd" id="1_uoj5p"]
+[ext_resource type="FontFile" uid="uid://ci1j3cg0vgsfj" path="res://fonts/BalsamiqSans-Bold.ttf" id="2_hvhpm"]
+[ext_resource type="StyleBox" uid="uid://bcf7os0dvohpq" path="res://UI/Styles/gradient_normal.tres" id="4_xxy77"]
+[ext_resource type="StyleBox" uid="uid://ds7mo5r36vol2" path="res://UI/Styles/gradient_hover.tres" id="5_xjfgw"]
+[ext_resource type="StyleBox" uid="uid://ppjnw7k3p8sk" path="res://UI/Styles/gradient_pressed.tres" id="6_t38ky"]
+[ext_resource type="Texture2D" uid="uid://c78vv24kpw2wf" path="res://UI/Delete icon.png" id="7_62x2b"]
+[ext_resource type="Script" path="res://UI/confirm_panel.gd" id="8_iwtka"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ti6jo"]
+shader = ExtResource("1_iwueq")
+shader_parameter/mouse = null
+shader_parameter/time = null
+shader_parameter/speed2 = 0.2
+
+[sub_resource type="FontVariation" id="FontVariation_brjho"]
+base_font = ExtResource("2_hvhpm")
+
+[sub_resource type="LabelSettings" id="LabelSettings_i43cp"]
+font = SubResource("FontVariation_brjho")
+font_size = 100
+font_color = Color(0.886275, 0.819608, 0.364706, 1)
+outline_size = 40
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gxq0k"]
+font = SubResource("FontVariation_brjho")
+font_size = 60
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vdqgn"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omi3r"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cusjx"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qphxe"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0f1nd"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8umfd"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="FontVariation" id="FontVariation_xgeqi"]
+base_font = ExtResource("2_hvhpm")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvmha"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yj1lw"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyj0y"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rlvbg"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uuuhs"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tumcc"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htk5b"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxnqs"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n4xlx"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tt2xg"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j4bil"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lmpo3"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydbnq"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6igq3"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_evigi"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjlc8"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3m8ei"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lld8j"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qds00"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8i57"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b5iob"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n0pqc"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u5sjw"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t18e5"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oeqby"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3kdq"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uulqe"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65drq"]
+bg_color = Color(0.820747, 0.65293, 0.38712, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_35c34"]
+font = ExtResource("2_hvhpm")
+font_size = 60
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_imk38"]
+font = ExtResource("2_hvhpm")
+font_size = 40
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ld1fk"]
+font = ExtResource("2_hvhpm")
+font_size = 40
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyvro"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ltvxm"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_02n6h"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Animation" id="Animation_acnu8"]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"change_scene"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_lvvi0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gvn21"]
+_data = {
+"Fade": SubResource("Animation_acnu8"),
+"RESET": SubResource("Animation_lvvi0")
+}
+
+[node name="MainMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uoj5p")
+
+[node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_ti6jo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -412.5
+offset_top = 72.0
+offset_right = 412.5
+offset_bottom = 192.0
+grow_horizontal = 2
+text = "Emporium Empire"
+label_settings = SubResource("LabelSettings_i43cp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainButtons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -342.5
+offset_top = -78.5
+offset_right = 342.5
+offset_bottom = 78.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="NewGame" type="Button" parent="MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("4_xxy77")
+theme_override_styles/hover = ExtResource("5_xjfgw")
+theme_override_styles/pressed = ExtResource("6_t38ky")
+
+[node name="Label" type="Label" parent="MainButtons/NewGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "New Game"
+label_settings = SubResource("LabelSettings_gxq0k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadGame" type="Button" parent="MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_vdqgn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_omi3r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cusjx")
+
+[node name="Label" type="Label" parent="MainButtons/LoadGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load Game"
+label_settings = SubResource("LabelSettings_gxq0k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitGame" type="Button" parent="MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_qphxe")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0f1nd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8umfd")
+
+[node name="Label" type="Label" parent="MainButtons/QuitGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit Game"
+label_settings = SubResource("LabelSettings_gxq0k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlots" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -342.5
+offset_top = -280.0
+offset_right = 342.5
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="SaveSlot1" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("4_xxy77")
+theme_override_styles/hover = ExtResource("5_xjfgw")
+theme_override_styles/pressed = ExtResource("6_t38ky")
+
+[node name="SlotLabel1" type="Label" parent="SaveSlots/SaveSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteSave1" type="Button" parent="SaveSlots/SaveSlot1"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = -1.0
+offset_right = 846.0
+offset_bottom = 89.0
+focus_mode = 0
+theme_override_styles/normal = ExtResource("4_xxy77")
+theme_override_styles/hover = ExtResource("5_xjfgw")
+theme_override_styles/pressed = ExtResource("6_t38ky")
+
+[node name="TextureRect" type="TextureRect" parent="SaveSlots/SaveSlot1/DeleteSave1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -42.5
+offset_right = 35.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_62x2b")
+expand_mode = 1
+
+[node name="SaveSlot2" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_pvmha")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yj1lw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pyj0y")
+
+[node name="SlotLabel2" type="Label" parent="SaveSlots/SaveSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteSave2" type="Button" parent="SaveSlots/SaveSlot2"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = -1.0
+offset_right = 846.0
+offset_bottom = 89.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_rlvbg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uuuhs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tumcc")
+
+[node name="TextureRect" type="TextureRect" parent="SaveSlots/SaveSlot2/DeleteSave2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -42.5
+offset_right = 35.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_62x2b")
+expand_mode = 1
+
+[node name="SaveSlot3" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_htk5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oxnqs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n4xlx")
+
+[node name="SlotLabel3" type="Label" parent="SaveSlots/SaveSlot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteSave3" type="Button" parent="SaveSlots/SaveSlot3"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = -1.0
+offset_right = 846.0
+offset_bottom = 89.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_tt2xg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_j4bil")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lmpo3")
+
+[node name="TextureRect" type="TextureRect" parent="SaveSlots/SaveSlot3/DeleteSave3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -42.5
+offset_right = 35.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_62x2b")
+expand_mode = 1
+
+[node name="SaveSlot4" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ydbnq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6igq3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_evigi")
+
+[node name="SlotLabel4" type="Label" parent="SaveSlots/SaveSlot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteSave4" type="Button" parent="SaveSlots/SaveSlot4"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = -1.0
+offset_right = 846.0
+offset_bottom = 89.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_pjlc8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3m8ei")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lld8j")
+
+[node name="TextureRect" type="TextureRect" parent="SaveSlots/SaveSlot4/DeleteSave4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -42.5
+offset_right = 35.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_62x2b")
+expand_mode = 1
+
+[node name="SaveSlot5" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_qds00")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8i57")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_b5iob")
+
+[node name="SlotLabel5" type="Label" parent="SaveSlots/SaveSlot5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeleteSave5" type="Button" parent="SaveSlots/SaveSlot5"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = -1.0
+offset_right = 846.0
+offset_bottom = 89.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_n0pqc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_u5sjw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_t18e5")
+
+[node name="TextureRect" type="TextureRect" parent="SaveSlots/SaveSlot5/DeleteSave5"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -42.5
+offset_right = 35.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_62x2b")
+expand_mode = 1
+
+[node name="Back" type="Button" parent="SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_oeqby")
+theme_override_styles/hover = SubResource("StyleBoxFlat_e3kdq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_uulqe")
+
+[node name="BackLabel" type="Label" parent="SaveSlots/Back"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_xgeqi")
+theme_override_font_sizes/font_size = 60
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_iwtka")
+body_text = "Do you want to delete this save file?"
+confirm_button_text = "Yes"
+deny_button_text = "No"
+
+[node name="Panel" type="Panel" parent="ConfirmPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -408.0
+offset_top = -200.0
+offset_right = 408.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_65drq")
+
+[node name="Title" type="Label" parent="ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -186.0
+offset_top = 8.0
+offset_right = 186.0
+offset_bottom = 80.0
+grow_horizontal = 2
+text = "Are you sure?"
+label_settings = SubResource("LabelSettings_35c34")
+
+[node name="BodyTextLabel" type="Label" parent="ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -356.0
+offset_top = -24.0
+offset_right = 356.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Test Message"
+label_settings = SubResource("LabelSettings_imk38")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -116.0
+offset_right = 240.0
+offset_bottom = -32.0
+grow_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = ExtResource("4_xxy77")
+theme_override_styles/hover = ExtResource("5_xjfgw")
+theme_override_styles/pressed = ExtResource("6_t38ky")
+
+[node name="ConfirmButtonLabel" type="Label" parent="ConfirmPanel/Panel/ConfirmButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -24.0
+offset_right = 36.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Null"
+label_settings = SubResource("LabelSettings_ld1fk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DenyButton" type="Button" parent="ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -116.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lyvro")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ltvxm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_02n6h")
+
+[node name="DenyButtonLabel" type="Label" parent="ConfirmPanel/Panel/DenyButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -24.0
+offset_right = 36.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Null"
+label_settings = SubResource("LabelSettings_ld1fk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gvn21")
+}
+
+[connection signal="pressed" from="MainButtons/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MainButtons/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="MainButtons/QuitGame" to="." method="_on_quit_game_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot1" to="." method="_on_save_slot_1_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot1/DeleteSave1" to="." method="_on_delete_save_1_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot2" to="." method="_on_save_slot_2_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot2/DeleteSave2" to="." method="_on_delete_save_2_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot3" to="." method="_on_save_slot_3_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot3/DeleteSave3" to="." method="_on_delete_save_3_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot4" to="." method="_on_save_slot_4_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot4/DeleteSave4" to="." method="_on_delete_save_4_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot5" to="." method="_on_save_slot_5_pressed"]
+[connection signal="pressed" from="SaveSlots/SaveSlot5/DeleteSave5" to="." method="_on_delete_save_5_pressed"]
+[connection signal="pressed" from="SaveSlots/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="ConfirmPanel/Panel/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="ConfirmPanel/Panel/DenyButton" to="." method="_on_deny_button_pressed"]
