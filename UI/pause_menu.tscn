@@ -1,0 +1,476 @@
+[gd_scene load_steps=24 format=3 uid="uid://dwf7n32f5qof7"]
+
+[ext_resource type="Script" path="res://UI/pause_menu.gd" id="1_pjsdj"]
+[ext_resource type="FontFile" uid="uid://ci1j3cg0vgsfj" path="res://fonts/BalsamiqSans-Bold.ttf" id="2_ply86"]
+[ext_resource type="StyleBox" uid="uid://bcf7os0dvohpq" path="res://UI/Styles/gradient_normal.tres" id="3_jbu3r"]
+[ext_resource type="StyleBox" uid="uid://ds7mo5r36vol2" path="res://UI/Styles/gradient_hover.tres" id="4_kqnc4"]
+[ext_resource type="StyleBox" uid="uid://ppjnw7k3p8sk" path="res://UI/Styles/gradient_pressed.tres" id="5_ayaqi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ka4p"]
+bg_color = Color(0.819608, 0.65098, 0.388235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="FontVariation" id="FontVariation_2qbr3"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ghkwn"]
+font = SubResource("FontVariation_2qbr3")
+font_size = 50
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_cw6xr"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="LabelSettings" id="LabelSettings_4xcvs"]
+font = SubResource("FontVariation_cw6xr")
+font_size = 60
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seo8n"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwe8n"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_colxm"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bcee"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_577ij"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="FontVariation" id="FontVariation_qyi1g"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="FontVariation" id="FontVariation_g0nke"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="FontVariation" id="FontVariation_m2ben"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="FontVariation" id="FontVariation_cquq5"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="FontVariation" id="FontVariation_q8xo4"]
+base_font = ExtResource("2_ply86")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y28xk"]
+bg_color = Color(0.701961, 0.447059, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.87451, 0.803922, 0.470588, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5av1a"]
+bg_color = Color(0.737255, 0.537255, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.917647, 0.862745, 0.584314, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3vgea"]
+bg_color = Color(0.815686, 0.694118, 1, 0.639216)
+border_width_bottom = 70
+border_color = Color(0.956863, 0.92549, 0.764706, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pjsdj")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBackground" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -484.0
+offset_top = -480.0
+offset_right = 484.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0ka4p")
+
+[node name="Title" type="Label" parent="MenuBackground"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -141.0
+offset_top = 11.0
+offset_right = 141.0
+offset_bottom = 71.0
+grow_horizontal = 2
+text = "Pause Menu"
+label_settings = SubResource("LabelSettings_ghkwn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainButtons" type="VBoxContainer" parent="MenuBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.0
+offset_top = -37.0
+offset_right = 287.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="ResumeGame" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("3_jbu3r")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/ResumeGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume Game"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsMenu" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_seo8n")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/OptionsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Options"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveGame" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_dwe8n")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/SaveGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save Game"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadGame" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_colxm")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/LoadGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Load Game"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenu" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_3bcee")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitGame" type="Button" parent="MenuBackground/MainButtons"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_577ij")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="Label" type="Label" parent="MenuBackground/MainButtons/QuitGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit Game"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlots" type="VBoxContainer" parent="MenuBackground"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -287.0
+offset_top = -37.0
+offset_right = 287.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="SaveSlot1" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("3_jbu3r")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="SlotLabel_1" type="Label" parent="MenuBackground/SaveSlots/SaveSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_qyi1g")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlot2" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_seo8n")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="SlotLabel_2" type="Label" parent="MenuBackground/SaveSlots/SaveSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_g0nke")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlot3" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_colxm")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="SlotLabel_3" type="Label" parent="MenuBackground/SaveSlots/SaveSlot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_m2ben")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlot4" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_3bcee")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="SlotLabel_4" type="Label" parent="MenuBackground/SaveSlots/SaveSlot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_cquq5")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveSlot5" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_577ij")
+theme_override_styles/hover = ExtResource("4_kqnc4")
+theme_override_styles/pressed = ExtResource("5_ayaqi")
+
+[node name="SlotLabel_5" type="Label" parent="MenuBackground/SaveSlots/SaveSlot5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = SubResource("FontVariation_q8xo4")
+theme_override_font_sizes/font_size = 60
+text = "Empty Save"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back" type="Button" parent="MenuBackground/SaveSlots"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_y28xk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5av1a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3vgea")
+
+[node name="Label" type="Label" parent="MenuBackground/SaveSlots/Back"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+label_settings = SubResource("LabelSettings_4xcvs")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MenuBackground/MainButtons/ResumeGame" to="." method="_on_resume_game_pressed"]
+[connection signal="pressed" from="MenuBackground/MainButtons/OptionsMenu" to="." method="_on_options_menu_pressed"]
+[connection signal="pressed" from="MenuBackground/MainButtons/SaveGame" to="." method="_on_save_game_pressed"]
+[connection signal="pressed" from="MenuBackground/MainButtons/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="MenuBackground/MainButtons/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MenuBackground/MainButtons/QuitGame" to="." method="_on_quit_game_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/SaveSlot1" to="." method="_on_save_slot_1_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/SaveSlot2" to="." method="_on_save_slot_2_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/SaveSlot3" to="." method="_on_save_slot_3_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/SaveSlot4" to="." method="_on_save_slot_4_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/SaveSlot5" to="." method="_on_save_slot_5_pressed"]
+[connection signal="pressed" from="MenuBackground/SaveSlots/Back" to="." method="_on_back_pressed"]
