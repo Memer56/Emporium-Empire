@@ -29,13 +29,12 @@ func manually_toggle_border():
 		border.hide()
 
 func _on_add_items_pressed():
-	buttons.hide()
 	objects_list.show()
 
 func _on_remove_items_pressed():
 	EventBus.current_state = EventBus.state.DESTROYING
 	change_border_colour(destroy_mode_colour)
-	toggle_buttons()
+	toggle_self()
 
 func _on_quit_mode_pressed():
 	EventBus.current_state = EventBus.state.PLAY
@@ -50,9 +49,9 @@ func change_border_colour(colour : Color):
 func _input(event):
 	if Input.is_action_just_pressed("ShowTopUIButtons"):
 		# Maybe change this to be animated
-		toggle_buttons()
+		toggle_self()
 
-func toggle_buttons():
+func toggle_self():
 	buttons.visible = not buttons.visible
 	
 	if buttons.visible:
@@ -66,7 +65,7 @@ func toggle_buttons():
 		get_tree().paused = false
 
 func determine_which_button_was_pressed(object_name : String):
-	toggle_buttons()
+	toggle_self()
 	match object_name:
 		"Checkout":
 			add_checkout()
@@ -107,7 +106,9 @@ func add_checkout():
 
 func hide_ui():
 	change_border_colour(build_mode_colour)
-	toggle_buttons()
+	toggle_self()
+	# For some reason toggle_self() doen't hide the buttons ://////////
+	buttons.hide()
 	objects_list.hide()
 
 
