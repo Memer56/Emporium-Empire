@@ -7,33 +7,30 @@ extends CharacterBody3D
 @export var freeze : bool
 @onready var item_picker_ray = $ItemPickerRay
 @onready var timer = $Timer
-@onready var right_hand = $"Knight/Rig/Skeleton3D/1H_Sword"
 @onready var label_3d = $Label3D
-@onready var decision_timout = $DecisionTimout
+@onready var decision_timeout = $DecisionTimeout
+@onready var right_hand_pos = $RightHandPos
 
 var speed := 5.0
 var gravity = 200
-var state = MOVE
 var next_location
 var target_position
-var item_positions = []
-var picked_items = []
-var checkout_positions = []
-var picked_item_prices = []
-var is_paying_for_item = false
+var spawn_position
+var item_positions := []
+var picked_items_array := []
+var checkout_objects := []
+var picked_item_prices := []
+var is_paying_for_item := false
 var num_of_items_to_get : int
 var current_num_of_items_held : int
 var attempted_to_grab_item : int
-var destination_reached = false
+var destination_reached := false
+var can_drop_items := false
+var queue_pos_search := false
+var chosen_checkout = null
 
-enum {
-	MOVE,
-	CUTSCENE
-}
 
 func _ready():
-	EventBus.freeze_npc.connect(freeze_npc_movement)
-	EventBus.payed_for_items.connect(on_payed_for_items)
 	if freeze:
 		set_physics_process(false)
 
@@ -44,11 +41,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		item_picker_ray.set_target_position(Vector3(0, 1, 0))
 	
-	match state:
-		MOVE:
-			move_to_target(delta)
-		CUTSCENE:
-			pass
+	search_for_queue_position()
+	move_to_target(delta)
 	
 	if ray_cast.is_colliding() and is_on_floor():
 		jump()
@@ -100,13 +94,18 @@ func _on_timer_timeout():
 
 func choose_next_target():
 	var n : int
-	n = randi_range(1, 6)
-	if n == 1:
-		choose_num_of_items_to_get()
-		decision_timout.start(20)
-		await get_tree().create_timer(0.5).timeout
-		choose_item()
-	if n > 1 and n < 7:
+	#n = randi_range(1, 6)
+	n = 1
+	if n >= 1 and n <= 2:
+		if EventBus.is_shop_open:
+			choose_num_of_items_to_get()
+			decision_timeout.start(20)
+			await get_tree().create_timer(0.5).timeout
+			choose_item()
+		else:
+			label_3d.show()
+			label_3d.text = str("The Shop is Closed")
+	if n > 2 and n < 7:
 		update_target_location(Vector3(0, 0, 0))
 		timer.start(20)
 
@@ -136,13 +135,18 @@ func _on_navigation_agent_3d_target_reached():
 		item_positions.clear()
 	else:
 		disable_item_raycast()
-		EventBus.spawn_picked_items.emit(picked_items, target_position)
 		num_of_items_to_get = 0
 		update_target_location(global_position)
 		mesh.rotation.y = EventBus.player_pos.y
-		#Allows checkout to obtain the below variables value
 		await get_tree().create_timer(0.2).timeout
-		picked_items.clear()
+		if can_drop_items:
+			EventBus.send_picked_item_data.emit(picked_items_array, spawn_position)
+			#Allows checkout to obtain the below variables value
+			await get_tree().create_timer(0.2).timeout
+			picked_items_array.clear()
+	
+	if queue_pos_search:
+		queue_pos_search = false
 
 
 func check_raycast_collides_with_item():
@@ -150,37 +154,64 @@ func check_raycast_collides_with_item():
 	if collider is RigidBody3D:
 		if collider.is_in_group("items"):
 			if item_picker_ray.is_colliding():
-				picked_items.append(collider.id)
-				print(picked_items)
+				var picked_items = []
+				var id = collider.id
+				var price = collider.item_price
+				picked_items.append(id)
+				picked_items.append(price)
+				picked_items_array.append(picked_items)
 				picked_item_prices.append(collider.item_price)
 				collider.queue_free()
 				current_num_of_items_held += 1
 				await get_tree().create_timer(0.3).timeout
-				if current_num_of_items_held == num_of_items_to_get:
+				if current_num_of_items_held >= num_of_items_to_get:
 					is_paying_for_item = true
-					go_to_checkout_and_unload_items(collider)
+					go_to_checkout_and_unload_items()
+					item_picker_ray.enabled = false
 				else:
 					choose_item()
 	
 	elif collider == null and destination_reached == true:
 		if target_position:
 			if global_position.direction_to(target_position) <= Vector3(0.4, 0, 0.4):
-				print("this is getting called")
 				choose_item()
 
-func go_to_checkout_and_unload_items(collider):
+func go_to_checkout_and_unload_items():
 	destination_reached = false
-	decision_timout.stop()
+	decision_timeout.stop()
 	if EventBus.checkouts_exist_in_scene:
+		navigation_agent.target_desired_distance = 2.4
 		for checkouts in get_tree().get_nodes_in_group("checkout"):
-			var positions = checkouts.global_position
-			checkout_positions.append(positions)
-			target_position = checkout_positions.pick_random()
-			update_target_location(target_position)
+			# rather than base which checkpoint is chosen from its position just identify which checkout object it is
+			# then you can access vital functions in checkout script
+			checkout_objects.append(checkouts)
+			chosen_checkout = checkout_objects.pick_random()
+			spawn_position = checkouts.marker_pos
+			if chosen_checkout.queue_pos_check_array.has(true):
+				find_correct_queue_pos()
+			else:
+				go_to_checkout_and_unload_items()
+
 	else:
 		label_3d.show()
-		picked_items.clear()
+		label_3d.text = "LMAO I'm Stealing"
+		picked_items_array.clear()
 		push_error("No checkouts found in scene")
+
+func find_correct_queue_pos():
+	var index = chosen_checkout.queue_pos_check_array.find(true)
+	match index:
+		0:
+			target_position = chosen_checkout.queue_pos[0]
+		1:
+			target_position = chosen_checkout.queue_pos[1]
+	
+	if target_position:
+		queue_pos_search = true
+
+func search_for_queue_position():
+	if queue_pos_search:
+		update_target_location(target_position)
 
 func _input(event):
 	if Input.is_action_just_pressed("Test"):
@@ -194,17 +225,31 @@ func enable_item_raycast():
 	item_picker_ray.set_collision_mask_value(4, true)
 
 
-func _on_decision_timout_timeout():
-	choose_item()
+func _on_decision_timeout():
 	attempted_to_grab_item += 1
-	if attempted_to_grab_item == 4:
+	if attempted_to_grab_item == 4 and current_num_of_items_held == 0:
 		attempted_to_grab_item = 0
 		item_positions.clear()
+		print("Decision timed out, choosing next target")
 		choose_next_target()
+	elif attempted_to_grab_item == 4 and current_num_of_items_held > 0:
+		print("Decision timed out, going to checkout")
+		go_to_checkout_and_unload_items()
 
-func on_payed_for_items():
-	animation_player.play("Interact")
-	EventBus.spawn_money.emit(target_position)
+func received_receipt():
+	label_3d.show()
+	label_3d.text = "Thank You!!!"
 	await get_tree().create_timer(1.4).timeout
-	checkout_positions.clear()
+	label_3d.hide()
+	checkout_objects.clear()
 	update_target_location(Vector3(0, 0, 0))
+
+
+func _on_area_3d_body_entered(body):
+	if body.get_collision_layer() == 2048:
+		EventBus.player_drop_object.emit()
+		var tween = get_tree().create_tween()
+		var start_pos = body.global_position
+		tween.tween_property(body, "global_position", right_hand_pos.global_position, 1)
+		body.despawn()
+		received_receipt()
