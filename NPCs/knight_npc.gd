@@ -28,9 +28,17 @@ var destination_reached := false
 var can_drop_items := false
 var queue_pos_search := false
 var chosen_checkout = null
+var index
+var state 
+
+enum{
+	SHOPPING,
+	WANDERING,
+}
 
 
 func _ready():
+	EventBus.progress_in_queue.connect(progress_in_queue)
 	if freeze:
 		set_physics_process(false)
 
@@ -41,7 +49,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		item_picker_ray.set_target_position(Vector3(0, 1, 0))
 	
-	search_for_queue_position()
+	match state:
+		SHOPPING:
+			search_for_queue_position()
+		WANDERING:
+			update_target_location(Vector3(0, 0, 0))
+
 	move_to_target(delta)
 	
 	if ray_cast.is_colliding() and is_on_floor():
@@ -90,6 +103,7 @@ func _on_navigation_velocity_computed(safe_velocity):
 ############################## AI Decision Logic Below ###########################################
 
 func _on_timer_timeout():
+	state = SHOPPING
 	choose_next_target()
 
 func choose_next_target():
@@ -111,7 +125,7 @@ func choose_next_target():
 
 func choose_num_of_items_to_get():
 	var n = randi_range(1, 3)
-	num_of_items_to_get = n
+	num_of_items_to_get = 1
 
 func choose_item():
 	destination_reached = false
@@ -128,6 +142,7 @@ func choose_item():
 
 
 func _on_navigation_agent_3d_target_reached():
+	navigation_agent.set_velocity(Vector3.ZERO)
 	if !is_paying_for_item:
 		destination_reached = true
 		#item_picker_ray.set_target_position(item_picker_ray.to_local(target_position))
@@ -144,6 +159,7 @@ func _on_navigation_agent_3d_target_reached():
 			#Allows checkout to obtain the below variables value
 			await get_tree().create_timer(0.2).timeout
 			picked_items_array.clear()
+			is_paying_for_item = false
 	
 	if queue_pos_search:
 		queue_pos_search = false
@@ -182,14 +198,13 @@ func go_to_checkout_and_unload_items():
 	if EventBus.checkouts_exist_in_scene:
 		navigation_agent.target_desired_distance = 2.4
 		for checkouts in get_tree().get_nodes_in_group("checkout"):
-			# rather than base which checkpoint is chosen from its position just identify which checkout object it is
-			# then you can access vital functions in checkout script
 			checkout_objects.append(checkouts)
 			chosen_checkout = checkout_objects.pick_random()
 			spawn_position = checkouts.marker_pos
 			if chosen_checkout.queue_pos_check_array.has(true):
 				find_correct_queue_pos()
 			else:
+				await get_tree().create_timer(10).timeout
 				go_to_checkout_and_unload_items()
 
 	else:
@@ -199,10 +214,14 @@ func go_to_checkout_and_unload_items():
 		push_error("No checkouts found in scene")
 
 func find_correct_queue_pos():
-	var index = chosen_checkout.queue_pos_check_array.find(true)
+	index = chosen_checkout.queue_pos_check_array.find(true)
 	match index:
+		-1:
+			await get_tree().create_timer(10).timeout
+			go_to_checkout_and_unload_items()
 		0:
 			target_position = chosen_checkout.queue_pos[0]
+			print("Found queue pos 1 - ", self.name)
 		1:
 			target_position = chosen_checkout.queue_pos[1]
 	
@@ -212,6 +231,16 @@ func find_correct_queue_pos():
 func search_for_queue_position():
 	if queue_pos_search:
 		update_target_location(target_position)
+		if chosen_checkout.queue_pos_check_array[index] != true:
+			velocity = Vector3.ZERO
+			find_correct_queue_pos()
+
+func progress_in_queue():
+	if index and index != 0:
+		print("progress_in_queue() being called - ", self.name)
+		index -= 1
+		target_position = chosen_checkout.queue_pos[index]
+		queue_pos_search = true
 
 func _input(event):
 	if Input.is_action_just_pressed("Test"):
@@ -240,9 +269,10 @@ func received_receipt():
 	label_3d.show()
 	label_3d.text = "Thank You!!!"
 	await get_tree().create_timer(1.4).timeout
+	state = WANDERING
 	label_3d.hide()
 	checkout_objects.clear()
-	update_target_location(Vector3(0, 0, 0))
+
 
 
 func _on_area_3d_body_entered(body):
