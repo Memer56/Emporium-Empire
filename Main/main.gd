@@ -3,7 +3,6 @@ extends Node3D
 # Credit Kenny if this game goes public
 const BAGUETTE = preload("res://Items/baguette.tscn")
 const PEANUT_BUTTER_JAR = preload("res://Items/peanut_butter_jar.tscn")
-const CASH = preload("res://Cash/cash.tscn")
 const SHELF = preload("res://Shelf/shelf.tscn")
 const PRICE_TAG = preload("res://price_tag.tscn")
 const CHECKOUT = preload("res://Objects/checkout.tscn")
@@ -16,21 +15,35 @@ const CHECKOUT = preload("res://Objects/checkout.tscn")
 
 var nav_rebake_finished = true
 var save : SaveGame
-var item_data 
+var item_data
+var price_tag_name_num := 1
+var num_of_price_tags : int
 
 
 func _ready():
 	EventBus.recalculate_nav_region.connect(recalculate_nav_region)
 	EventBus.send_picked_item_data.connect(spawn_picked_items)
 	EventBus.unlock_player_look_axis.connect(unlock_player_look_axis)
-	EventBus.spawn_money.connect(spawn_money)
+	EventBus.reconnect_signal.connect(reconnect_signal)
 	if EventBus.loaded_game_file_from_main_menu:
 		_on_pause_menu_load_game(EventBus.id)
 	if spawn_things:
 		spawn_thing()
-	#for items in get_tree().get_nodes_in_group("items"):
-		#print(str(items.name, items.global_position))
 
+func spawn_thing():
+	var x : int
+	var y : int
+	await get_tree().create_timer(4).timeout
+	while x < 3:
+		var thing = BAGUETTE.instantiate()
+		add_child(thing)
+		thing.global_position = Vector3(0, 4, 0)
+		x += 1
+	while y < 3:
+		var thing = PEANUT_BUTTER_JAR.instantiate()
+		add_child(thing)
+		thing.global_position = Vector3(2, 4, 0)
+		y += 1
 
 func _process(_delta):
 	if get_node_or_null("NavigationRegion3D/Checkout"):
@@ -46,32 +59,27 @@ func recalculate_nav_region():
 		navigation_region.bake_finished.emit()
 
 func spawn_picked_items(item_data : Array, placement_position : Vector3):
-	print("items_id's: ", item_data)
 	EventBus.send_picked_item_data.disconnect(spawn_picked_items)
 	for index in item_data.size():
-		print("looping through items")
 		var data = item_data[index]
 		var id = data[0]
 		match id:
 			1:
 				pass
 			2:
-				print("spawning bread")
 				var item = BAGUETTE.instantiate()
 				instance_items(item, placement_position)
 			3:
-				print("spawning jar")
 				var item = PEANUT_BUTTER_JAR.instantiate()
 				instance_items(item, placement_position)
 
 func instance_items(item, placement_position):
 	add_child(item)
 	item.global_position = placement_position + Vector3(0, 0, randf_range(0, 0.2))
+	item.remove_self_from_group()
 
-func spawn_money(placement_position : Vector3):
-	var cash = CASH.instantiate()
-	add_child(cash)
-	cash.global_position = placement_position + Vector3(0, 2, 0)
+func reconnect_signal():
+	EventBus.send_picked_item_data.connect(spawn_picked_items)
 
 func unlock_player_look_axis():
 	player.locked = false
@@ -115,6 +123,7 @@ func _on_pause_menu_load_game(id : String):
 		var rot = data[2]
 		var new_price = data[3]
 		var item_name : PackedScene
+		var item_name_2 : PackedScene
 		match item_id:
 			1:
 				pass
@@ -135,16 +144,21 @@ func _on_pause_menu_load_game(id : String):
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 			4:
+				num_of_price_tags += 1
+				if num_of_price_tags == 21:
+					num_of_price_tags = 0
+					price_tag_name_num += 1
 				item_name = PRICE_TAG
 				var itemName = item_name.instantiate()
-				add_child(itemName)
+				var node_path = "Main/NavigationRegion3D/Shelf" + str(price_tag_name_num)
+				get_tree().root.get_node(node_path).add_child(itemName)
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 				itemName.set_price(new_price)
 			5:
 				item_name = SHELF
 				var itemName = item_name.instantiate()
-				get_tree().root.get_node("Main/NavigationRegion3D").add_child(itemName)
+				get_tree().root.get_node("Main/NavigationRegion3D").add_child(itemName, true)
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 				itemName.despawn_extra_price_tags()
