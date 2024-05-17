@@ -13,11 +13,11 @@ func _on_line_edit_text_submitted(new_text):
 		text_box.text += str(matched_cheat, "\n")
 		toggle_self()
 		if index == 0:
-			var new_state = 2
-			CheatManager.change_state.emit(new_state)
+			var new_state = "FLY"
+			CheatManager.change_player_state(new_state)
 		if index == 1:
-			var new_state = 0
-			CheatManager.change_state.emit(new_state)
+			var new_state = "NORMAL"
+			CheatManager.change_player_state(new_state)
 	else:
 		text_box.text += str("Unknown Command", "\n")
 	
