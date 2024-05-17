@@ -18,8 +18,8 @@ signal show_border(true_or_false : bool)
 @onready var reticle = $CanvasLayer/Reticle
 @onready var green_reticle = $CanvasLayer/GreenReticle
 @onready var animation_player = $AnimationPlayer
+@onready var camera = $head/Camera3D
 
-var state
 var gravity = 10
 var direction = Vector3.ZERO
 var picked_object
@@ -33,18 +33,13 @@ var negative_head_rotation_limit_x = -89
 # Used if calling a function every frame is annoying
 var delta_value = 0.01666666666667
 
-enum {
-	NORMAL,
-	CUTSCENE,
-	FLY
-}
 
 func _ready():
-	state = NORMAL
+	EventBus.current_player_state = EventBus.player_state.NORMAL
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	visual_body.hide()
-	CheatManager.change_state.connect(change_state)
 	EventBus.remove_spawnable.connect(remove_spawnable)
+	EventBus.player_drop_object.connect(drop_object)
 
 func _physics_process(delta):
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
@@ -52,14 +47,14 @@ func _physics_process(delta):
 	
 	EventBus.player_pos = global_position
 	change_reticle_colour()
-	detect_interactable()
+	detect_static_interactable()
 	build_pov(delta)
-	match state:
-		NORMAL:
+	match EventBus.current_player_state:
+		EventBus.player_state.NORMAL:
 			move_player(delta, direction)
-		CUTSCENE:
+		EventBus.player_state.CUTSCENE:
 			pass
-		FLY:
+		EventBus.player_state.FLY:
 			fly(delta, direction)
 	
 	move_and_slide()
@@ -77,22 +72,23 @@ func remove_spawnable():
 			EventBus.recalculate_nav_region.emit()
 
 func change_reticle_colour():
-	if interaction.get_collider() is RigidBody3D and picked_object == null:
+	var collider = interaction.get_collider()
+	if collider is RigidBody3D and picked_object == null:
 		green_reticle.show()
 	else:
 		green_reticle.hide()
 
-func detect_interactable():
+func detect_static_interactable():
 	var collider = interaction.get_collider()
 	if collider is StaticBody3D:
 		if collider.is_in_group("interactable"):
 			if Input.is_action_just_pressed("LMB"):
 				if collider.id == 1:
 					EventBus.toggle_door.emit()
-				if collider.id == 4:
+				if collider.id == 7:
 					EventBus.clicked_on_cash_register.emit()
 			if Input.is_action_just_pressed("RMB"):
-				if collider.id == 2:
+				if collider.id == 4:
 					collider.show_price_tag_editor()
 			green_reticle.show()
 		else:
@@ -101,6 +97,8 @@ func detect_interactable():
 func pick_object():
 	var collider = interaction.get_collider()
 	if collider != null and collider is RigidBody3D:
+		if collider.id == 8:
+			collider.was_clicked_on = true
 		picked_object = collider
 		joint.set_node_b(picked_object.get_path())
 		reticle.hide()
@@ -182,11 +180,9 @@ func _input(event):
 	if Input.is_action_pressed("RMB") and EventBus.current_state == EventBus.state.PLAY:
 		locked = true
 		rotate_object(event)
+	
 	if Input.is_action_just_released("RMB"):
 		locked = false
-	
-	if Input.is_action_just_pressed("Quit"):
-		get_tree().quit()
 	
 	if Input.is_action_just_pressed("Interact"):
 		open_box()
@@ -204,8 +200,6 @@ func _input(event):
 			if hand.position.z <= -5.9:
 				hand.position.z = -5.89744853973389
 
-func change_state(new_state : int):
-	state = new_state
 
 func toggle_build_pov_variable():
 	enable_build_pov = not enable_build_pov
@@ -225,18 +219,26 @@ func build_pov(delta):
 		animation_player.play("BuildPOV")
 		positive_head_rotation_limit_x = -45
 		await get_tree().create_timer(1).timeout
-		state = FLY
+		EventBus.current_player_state = EventBus.player_state.FLY
 		locked = false
 		acending_speed = 0
 	else:
 		exit_build_pov()
 
 func exit_build_pov():
-	state = NORMAL
-	positive_head_rotation_limit_x = 89
-	animation_player.active = true
-	animation_player.play("PreventAnnoyingAnim")
+	if !EventBus.cheat_command_entered:
+		EventBus.current_player_state = EventBus.player_state.NORMAL
+		positive_head_rotation_limit_x = 89
+		animation_player.active = true
+		animation_player.play("PreventAnnoyingAnim")
 
 func toggle_border(true_or_false : bool):
 	show_border.emit(true_or_false)
+
+func disable_self():
+	camera.current = false
+	process_mode = Node.PROCESS_MODE_DISABLED
+
+func enable_self():
+	camera.current = true
 
