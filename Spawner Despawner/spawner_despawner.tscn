@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvpfupphiq40"]
+
+[ext_resource type="Script" path="res://Spawner Despawner/spawner_despawner.gd" id="1_f6ln5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8y212"]
+radius = 1.0
+
+[node name="Spawner_Despawner" type="Node3D"]
+script = ExtResource("1_f6ln5")
+
+[node name="SpawnPoint" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnPoint"]
+shape = SubResource("SphereShape3D_8y212")
+
+[node name="Marker3D" type="Marker3D" parent="SpawnPoint" groups=["spawnpoint"]]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+
+[connection signal="body_entered" from="SpawnPoint" to="." method="_on_spawn_point_body_entered"]
+[connection signal="body_exited" from="SpawnPoint" to="." method="_on_spawn_point_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
