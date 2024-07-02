@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c07la1ovw5ru7"]
+
+[ext_resource type="Script" path="res://Objects/Computer/hotbar_icon.gd" id="1_c4qqe"]
+[ext_resource type="Texture2D" uid="uid://cadc3pddsmab8" path="res://icon.svg" id="1_tnoqu"]
+
+[node name="hotbar_icon" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 0
+script = ExtResource("1_c4qqe")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 45.0
+offset_bottom = 45.0
+texture = ExtResource("1_tnoqu")
+expand_mode = 1

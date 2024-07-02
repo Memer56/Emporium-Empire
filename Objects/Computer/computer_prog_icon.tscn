@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://cf6pytyapvh1d"]
+
+[ext_resource type="Texture2D" uid="uid://cadc3pddsmab8" path="res://icon.svg" id="1_36065"]
+[ext_resource type="Script" path="res://Objects/Computer/computer_prog_icon.gd" id="1_cxisf"]
+[ext_resource type="FontFile" uid="uid://biglb6tr3f67x" path="res://fonts/Sniglet-Regular.ttf" id="3_q72qr"]
+
+[sub_resource type="FontVariation" id="FontVariation_b8vu6"]
+base_font = ExtResource("3_q72qr")
+
+[sub_resource type="LabelSettings" id="LabelSettings_3xw2e"]
+font = SubResource("FontVariation_b8vu6")
+font_size = 50
+outline_size = 30
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ComputerProgIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cxisf")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(169, 161)
+layout_mode = 1
+offset_right = 169.0
+offset_bottom = 161.0
+texture_normal = ExtResource("1_36065")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TextureButton"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -66.0
+offset_top = 2.0
+offset_right = 66.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Name"
+label_settings = SubResource("LabelSettings_3xw2e")
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

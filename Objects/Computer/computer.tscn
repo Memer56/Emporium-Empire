@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://b04gohylijs0s"]
+
+[ext_resource type="Script" path="res://Objects/Computer/computer.gd" id="1_bgopx"]
+[ext_resource type="ArrayMesh" uid="uid://cul4rpwke8bvo" path="res://Objects/Computer/Computer.obj" id="1_h5na3"]
+[ext_resource type="PackedScene" uid="uid://c5xyxf2gbfui7" path="res://Objects/Computer/computer_ui.tscn" id="3_gwya3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_comhw"]
+albedo_color = Color(0.831373, 0.776471, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gtscg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vpx8q"]
+size = Vector3(2.94336, 1.42377, 1)
+
+[node name="Computer" type="StaticBody3D" groups=["interactable", "save", "spawnable"]]
+collision_layer = 10
+script = ExtResource("1_bgopx")
+
+[node name="Computer" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.005, 0, 0, 0, 0.005, 0, 0, 0, 0.005, 0, 0, 0)
+mesh = ExtResource("1_h5na3")
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.90705, 0, 0, 0, -4.37114e-08, -0.50918, 0, 1, -2.2257e-08, 0, 0.851863, 0.013809)
+material_override = SubResource("StandardMaterial3D_comhw")
+mesh = SubResource("PlaneMesh_gtscg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.520508, 0.700104, 0)
+shape = SubResource("BoxShape3D_vpx8q")
+
+[node name="ComputerUI" parent="." instance=ExtResource("3_gwya3")]
