@@ -68,29 +68,31 @@ func decrease_item_quantity(item_name : String):
 	find_and_edit_item_info_in_basket(item_name, false, true, new_qty)
 
 func find_and_edit_item_info_in_basket(item_name : String, is_finding_name : bool, is_modifying_qty : bool, new_qty : int):
+	# this abomination below finds the item info and returns it and performs actions
 	for index in basket.size():
 		var item_info = basket[index]
 		if is_finding_name:
 			var items_name = item_info[0]
 			if items_name == item_name:
-				print("item name: ", items_name)
 				return items_name
 		elif is_modifying_qty:
 			var items_name = item_info[0]
 			if items_name == item_name:
 				item_info.remove_at(1)
 				item_info.insert(1, new_qty)
-				print("QTY modified basket: ", basket)
 		else:
 			var items_name = item_info[0]
 			if items_name == item_name:
 				var items_qty = item_info[1]
 				return items_qty
 
-func remove_all_duplicate_items_from_array(item_name : String):
-	var n = basket.count(item_name)
-	for items in n:
-		basket.erase(item_name)
+func remove_items_from_basket(item_name : String):
+	for index in basket.size():
+		var item_info = basket[index]
+		var items_name = item_info[0]
+		if items_name == item_name:
+			basket.remove_at(index)
+			break
 
 func reset_basket():
 	total_price_num = 0
