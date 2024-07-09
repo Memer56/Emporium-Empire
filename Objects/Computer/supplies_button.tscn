@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://bo1ga8g12r8mq"]
+
+[ext_resource type="Texture2D" uid="uid://cpgerwwhxmthd" path="res://Images/Bagguette Image.png" id="1_sahtg"]
+[ext_resource type="Script" path="res://Objects/Computer/supplies_button.gd" id="2_5jdq6"]
+[ext_resource type="FontFile" uid="uid://d1rk4bbe2g02l" path="res://fonts/AcPlus_IBM_BIOS.ttf" id="3_kjfqu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mn4p1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.898039, 0.721569, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="FontVariation" id="FontVariation_h1wdc"]
+base_font = ExtResource("3_kjfqu")
+
+[sub_resource type="LabelSettings" id="LabelSettings_77ryx"]
+font = SubResource("FontVariation_h1wdc")
+font_size = 20
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xwrae"]
+font = SubResource("FontVariation_h1wdc")
+font_size = 30
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[node name="SuppliesButton" type="TextureButton"]
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture_normal = ExtResource("1_sahtg")
+script = ExtResource("2_5jdq6")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mn4p1")
+
+[node name="NameTag" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -37.5
+offset_top = -22.0
+offset_right = 37.5
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Name"
+label_settings = SubResource("LabelSettings_77ryx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PriceTag" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 5.0
+offset_bottom = 36.0
+grow_horizontal = 0
+text = "###"
+label_settings = SubResource("LabelSettings_xwrae")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
