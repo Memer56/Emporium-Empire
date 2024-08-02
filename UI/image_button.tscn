@@ -40,7 +40,7 @@ font_size = 70
 outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
-[node name="ImageButton" type="Control"]
+[node name="ImageButton" type="Control" groups=["searchable"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,4 +102,13 @@ label_settings = SubResource("LabelSettings_qwas2")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+layout_mode = 0
+offset_left = 185.0
+offset_top = 22.0
+offset_right = 284.0
+offset_bottom = 57.0
+color = Color(1, 1, 1, 1)
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="color_changed" from="ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
