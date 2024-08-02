@@ -4,6 +4,7 @@ extends Control
 @onready var buttons = $Buttons
 @onready var shelf : PackedScene = ResourceLoader.load("res://Shelf/shelf.tscn")
 @onready var objects_list = $ObjectsList
+
 var build_mode_colour = Color("91e900")
 var destroy_mode_colour = Color("d20007")
 var adjust_mode_color = Color.YELLOW
@@ -28,10 +29,11 @@ func manually_toggle_border():
 	else:
 		border.hide()
 
-func _on_add_items_pressed():
+func _on_add_objects_pressed():
 	objects_list.show()
+	buttons.hide()
 
-func _on_remove_items_pressed():
+func _on_remove_world_objects_pressed():
 	EventBus.current_state = EventBus.state.DESTROYING
 	change_border_colour(destroy_mode_colour)
 	toggle_self()
@@ -64,43 +66,49 @@ func toggle_self():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		get_tree().paused = false
 
-func determine_which_button_was_pressed(object_name : String):
+func determine_which_button_was_pressed(object_name : String, new_colour : Color):
 	toggle_self()
 	match object_name:
 		"Checkout":
-			add_checkout()
+			add_checkout(new_colour)
 		"Shelf":
-			add_shelf()
+			add_shelf(new_colour)
 		"Small Wall":
-			add_small_wall()
+			add_small_wall(new_colour)
 		"Medium Wall":
-			add_medium_wall()
+			add_medium_wall(new_colour)
 		"Large Wall":
-			add_large_wall()
+			add_large_wall(new_colour)
+		"Computer":
+			add_computer(new_colour)
 
-func add_shelf():
-	BuildManager.spawn_shelf()
+func add_shelf(new_colour : Color):
+	BuildManager.spawn_shelf(new_colour)
 	hide_ui()
 
-func add_small_wall():
+func add_small_wall(new_colour : Color):
 	BuildManager.selected_build_object = true
-	BuildManager.spawn_small_wall()
+	BuildManager.spawn_small_wall(new_colour)
 	hide_ui()
 
-func add_medium_wall():
+func add_medium_wall(new_colour : Color):
 	BuildManager.selected_build_object = true
-	BuildManager.spawn_medium_wall()
+	BuildManager.spawn_medium_wall(new_colour)
 	hide_ui()
 
 
-func add_large_wall():
+func add_large_wall(new_colour : Color):
 	BuildManager.selected_build_object = true
-	BuildManager.spawn_large_wall()
+	BuildManager.spawn_large_wall(new_colour)
 	hide_ui()
 
 
-func add_checkout():
-	BuildManager.spawn_checkout()
+func add_checkout(new_colour : Color):
+	BuildManager.spawn_checkout(new_colour)
+	hide_ui()
+
+func add_computer(new_colour : Color):
+	BuildManager.spawn_computer(new_colour)
 	hide_ui()
 
 
@@ -112,7 +120,12 @@ func hide_ui():
 	objects_list.hide()
 
 
-
 func _on_player_show_border(true_or_false):
 	manually_toggle_border()
 	recieved_signal = true_or_false
+
+
+func _on_close_pressed():
+	objects_list.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	get_tree().paused = false
