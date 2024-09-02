@@ -6,18 +6,27 @@ const PEANUT_BUTTER_JAR = preload("res://Items/peanut_butter_jar.tscn")
 const SHELF = preload("res://Shelf/shelf.tscn")
 const PRICE_TAG = preload("res://price_tag.tscn")
 const CHECKOUT = preload("res://Objects/checkout.tscn")
+const COMPUTER = preload("res://Objects/Computer/computer.tscn")
+const GODOT_PLUSHIE_SMALL = preload("res://Items/Godot Plushie/godot_plushie_small.tscn")
+const SMALL_WALL = preload("res://Objects/Building Parts/small_wall.tscn")
+const MEDIUM_WALL = preload("res://Objects/Building Parts/medium_wall.tscn")
+const LARGE_WALL = preload("res://Objects/Building Parts/large_wall.tscn")
+const DESK = preload("res://Furniture/Furniture Scenes/desk.tscn")
 
 @onready var navigation_region = $NavigationRegion3D
+@onready var house_nav_mesh = $HouseNavMesh
 @onready var player = $Player
 @onready var marker = $Marker3D
 @onready var num : int
-@export var spawn_things = false
+
 
 var nav_rebake_finished = true
 var save : SaveGame
 var item_data
 var price_tag_name_num := 1
 var num_of_price_tags : int
+var parsed_game_version : String
+var version = ProjectSettings.get_setting("application/config/version")
 
 
 func _ready():
@@ -25,25 +34,14 @@ func _ready():
 	EventBus.send_picked_item_data.connect(spawn_picked_items)
 	EventBus.unlock_player_look_axis.connect(unlock_player_look_axis)
 	EventBus.reconnect_signal.connect(reconnect_signal)
-	if EventBus.loaded_game_file_from_main_menu:
-		_on_pause_menu_load_game(EventBus.id)
-	if spawn_things:
-		spawn_thing()
+	get_tree().paused = false
+	if EventBus.loaded_game_file:
+		fetch_game_data(EventBus.id)
+	# The below code is to prevent issues with items recieving the neede shelf data
+	await get_tree().create_timer(1).timeout
+	EventBus.loaded_game_file = false
+	print(EventBus.loaded_game_file)
 
-func spawn_thing():
-	var x : int
-	var y : int
-	await get_tree().create_timer(4).timeout
-	while x < 3:
-		var thing = BAGUETTE.instantiate()
-		add_child(thing)
-		thing.global_position = Vector3(0, 4, 0)
-		x += 1
-	while y < 3:
-		var thing = PEANUT_BUTTER_JAR.instantiate()
-		add_child(thing)
-		thing.global_position = Vector3(2, 4, 0)
-		y += 1
 
 func _process(_delta):
 	if get_node_or_null("NavigationRegion3D/Checkout"):
@@ -53,7 +51,10 @@ func _process(_delta):
 
 
 func recalculate_nav_region():
-	if nav_rebake_finished:
+	if EventBus.player_is_in_house:
+		house_nav_mesh.bake_navigation_mesh(true)
+	
+	if nav_rebake_finished and !EventBus.player_is_in_house:
 		navigation_region.bake_navigation_mesh(true)
 		nav_rebake_finished = false
 		navigation_region.bake_finished.emit()
@@ -89,30 +90,50 @@ func _on_navigation_region_3d_bake_finished():
 
 
 func _on_pause_menu_save_game(id : String):
+	# To solve prive tag issue maybe save and load shelf data such as true/false array
 	save = SaveGame.new()
 	save.player_pos = player.global_position
+	save.game_version = version
 	for item in get_tree().get_nodes_in_group("save"):
 		var object_info = []
 		var positions = item.global_position
 		var item_id = item.id
 		var object_rotation = item.global_rotation_degrees
 		var price := 0.0
+		var colour : Color
+		var free_points_array := []
+		var item_index : int
 		if item.id == 4:
 			price = item.price
+			free_points_array = item.which_points_are_free
+		if item.is_in_group("has colour"):
+			colour = item.object_colour
+		if item.is_in_group("items"):
+			item_index = item.index
 		object_info.append(item_id)
 		object_info.append(positions)
 		object_info.append(object_rotation)
 		object_info.append(price)
+		object_info.append(colour)
+		object_info.append(free_points_array)
+		object_info.append(item_index)
 		save.item_and_object_pos.append(object_info)
 	save.write_savegame(id)
 
 
 func _on_pause_menu_load_game(id : String):
+	EventBus.id = id
+	get_tree().change_scene_to_file("res://Load Screen/load_screen.tscn")
+
+func fetch_game_data(id : String):
 	if SaveGame.save_exists(id) == false:
 		push_error("No Save File Was Found")
 		return
-	# reload scene before executing this or it causes duplication glitch
 	save = SaveGame.load_savegame(id)
+	#parsed_game_version = save.game_version
+	load_game_data(save)
+
+func load_game_data(save):
 	player.global_position = save.player_pos
 	item_data = save.item_and_object_pos
 	rebake_navmesh()
@@ -122,6 +143,9 @@ func _on_pause_menu_load_game(id : String):
 		var pos = data[1]
 		var rot = data[2]
 		var new_price = data[3]
+		var colour = data[4]
+		var free_points_array = data[5]
+		var item_index = data[6]
 		var item_name : PackedScene
 		var item_name_2 : PackedScene
 		match item_id:
@@ -137,15 +161,17 @@ func _on_pause_menu_load_game(id : String):
 				add_child(itemName)
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
+				itemName.index = item_index
 			3:
 				item_name = PEANUT_BUTTER_JAR
 				var itemName = item_name.instantiate()
 				add_child(itemName)
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
+				itemName.index = item_index
 			4:
 				num_of_price_tags += 1
-				if num_of_price_tags == 21:
+				if num_of_price_tags == 11:
 					num_of_price_tags = 0
 					price_tag_name_num += 1
 				item_name = PRICE_TAG
@@ -155,6 +181,7 @@ func _on_pause_menu_load_game(id : String):
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 				itemName.set_price(new_price)
+				itemName.which_points_are_free = free_points_array
 			5:
 				item_name = SHELF
 				var itemName = item_name.instantiate()
@@ -162,15 +189,56 @@ func _on_pause_menu_load_game(id : String):
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 				itemName.despawn_extra_price_tags()
-				itemName.object_white()
+				itemName.set_colour(colour)
 			6:
 				item_name = CHECKOUT
 				var itemName = item_name.instantiate()
 				get_tree().root.get_node("Main/NavigationRegion3D").add_child(itemName)
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
-				itemName.object_white()
+				itemName.set_colour(colour)
+			9:
+				item_name = COMPUTER
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.set_colour(colour)
+			11:
+				item_name = GODOT_PLUSHIE_SMALL
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+			12:
+				item_name = SMALL_WALL
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.set_colour(colour)
+			13:
+				item_name = MEDIUM_WALL
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.set_colour(colour)
+			14:
+				item_name = LARGE_WALL
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.set_colour(colour)
+			15:
+				item_name = DESK
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.set_colour(colour)
 
 func rebake_navmesh():
 	await get_tree().create_timer(1).timeout
-	navigation_region.bake_navigation_mesh()
+	navigation_region.bake_navigation_mesh(true)
