@@ -3,11 +3,13 @@ extends Control
 @onready var text_box = $TextBox
 @onready var line_edit = $LineEdit
 
-var cheats = ["fly", "no fly"]
+var cheats = ["fly", "no_fly", "money"]
+
 
 func _on_line_edit_text_submitted(new_text):
-	var text = line_edit.text
-	var index = cheats.find(text)
+	var text = new_text.split(" ")
+	var index = cheats.find(text[0])
+	var parameters = text.slice(1, text.size())
 	if index != -1:
 		var matched_cheat = cheats[index]
 		text_box.text += str(matched_cheat, "\n")
@@ -18,6 +20,13 @@ func _on_line_edit_text_submitted(new_text):
 		if index == 1:
 			var new_state = "NORMAL"
 			CheatManager.change_player_state(new_state)
+		if index == 2:
+			var new_value = parameters[1]
+			if parameters[0] == "+":
+				EventBus.update_money_counter.emit(int(new_value), "add")
+			elif parameters[0] == "-":
+				EventBus.update_money_counter.emit(int(new_value), "subtract")
+
 	else:
 		text_box.text += str("Unknown Command", "\n")
 	
