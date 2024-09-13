@@ -3,6 +3,7 @@ extends Node3D
 # Credit Kenny if this game goes public
 const BAGUETTE = preload("res://Items/baguette.tscn")
 const PEANUT_BUTTER_JAR = preload("res://Items/peanut_butter_jar.tscn")
+const SANDWICH = preload("res://Items/sandwich.tscn")
 const SHELF = preload("res://Shelf/shelf.tscn")
 const PRICE_TAG = preload("res://price_tag.tscn")
 const CHECKOUT = preload("res://Objects/checkout.tscn")
@@ -40,8 +41,6 @@ func _ready():
 	# The below code is to prevent issues with items recieving the neede shelf data
 	await get_tree().create_timer(1).timeout
 	EventBus.loaded_game_file = false
-	print(EventBus.loaded_game_file)
-
 
 func _process(_delta):
 	if get_node_or_null("NavigationRegion3D/Checkout"):
@@ -66,7 +65,8 @@ func spawn_picked_items(item_data : Array, placement_position : Vector3):
 		var id = data[0]
 		match id:
 			1:
-				pass
+				var item = SANDWICH.instantiate()
+				instance_items(item, placement_position)
 			2:
 				var item = BAGUETTE.instantiate()
 				instance_items(item, placement_position)
@@ -94,6 +94,7 @@ func _on_pause_menu_save_game(id : String):
 	save = SaveGame.new()
 	save.player_pos = player.global_position
 	save.game_version = version
+	save.money = EventBus.money
 	for item in get_tree().get_nodes_in_group("save"):
 		var object_info = []
 		var positions = item.global_position
@@ -101,22 +102,25 @@ func _on_pause_menu_save_game(id : String):
 		var object_rotation = item.global_rotation_degrees
 		var price := 0.0
 		var colour : Color
-		var free_points_array := []
 		var item_index : int
+		var shelf_points := {
+			"Free points array:": []
+		}
 		if item.id == 4:
 			price = item.price
-			free_points_array = item.which_points_are_free
 		if item.is_in_group("has colour"):
 			colour = item.object_colour
 		if item.is_in_group("items"):
 			item_index = item.index
+		if item.is_in_group("price_tag"):
+			shelf_points["Free points array:"] = item.which_points_are_free
 		object_info.append(item_id)
 		object_info.append(positions)
 		object_info.append(object_rotation)
 		object_info.append(price)
 		object_info.append(colour)
-		object_info.append(free_points_array)
 		object_info.append(item_index)
+		object_info.append(shelf_points)
 		save.item_and_object_pos.append(object_info)
 	save.write_savegame(id)
 
@@ -136,6 +140,8 @@ func fetch_game_data(id : String):
 func load_game_data(save):
 	player.global_position = save.player_pos
 	item_data = save.item_and_object_pos
+	EventBus.money = save.money
+	EventBus.update_money_counter.emit(EventBus.money, "")
 	rebake_navmesh()
 	for index in item_data.size():
 		var data = item_data[index]
@@ -144,17 +150,18 @@ func load_game_data(save):
 		var rot = data[2]
 		var new_price = data[3]
 		var colour = data[4]
-		var free_points_array = data[5]
-		var item_index = data[6]
+		var item_index = data[5]
+		var shelf_points = data[6]
 		var item_name : PackedScene
 		var item_name_2 : PackedScene
 		match item_id:
 			1:
-				pass
-				#item_name = PEANUT_BUTTER_JAR
-				#var itemName = item_name.instantiate()
-				#add_child(itemName)
-				#itemName.global_position = pos
+				item_name = SANDWICH
+				var itemName = item_name.instantiate()
+				add_child(itemName)
+				itemName.global_position = pos
+				itemName.global_rotation_degrees = rot
+				itemName.index = item_index
 			2:
 				item_name = BAGUETTE
 				var itemName = item_name.instantiate()
@@ -181,7 +188,7 @@ func load_game_data(save):
 				itemName.global_position = pos
 				itemName.global_rotation_degrees = rot
 				itemName.set_price(new_price)
-				itemName.which_points_are_free = free_points_array
+				itemName.initialise_free_point_array(shelf_points["Free points array:"])
 			5:
 				item_name = SHELF
 				var itemName = item_name.instantiate()
